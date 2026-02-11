@@ -63,13 +63,10 @@ export function Burger3DViewer({ ingredients }: Props) {
     Object.entries(MODEL_MAP).forEach(([name, { url, y, scale }]) => {
       loader.load(url, (gltf) => {
         const model = gltf.scene;
-        model.position.y = y;
+        // Los modelos vienen en Z-up (Blender), rotar a Y-up (Three.js)
+        model.rotation.x = -Math.PI / 2;
         model.scale.setScalar(scale);
-        // Centrar horizontalmente cada modelo
-        const box = new THREE.Box3().setFromObject(model);
-        const center = box.getCenter(new THREE.Vector3());
-        model.position.x -= center.x;
-        model.position.z -= center.z;
+        model.position.y = y;
         model.visible = false;
         scene.add(model);
         modelsRef.current.set(name, model);
