@@ -33,7 +33,7 @@ export default function RegisterScreen() {
         : msg.includes('already registered')
         ? 'Ese email ya está registrado. Intentá iniciar sesión.'
         : msg.includes('422') || msg.includes('weak') || msg.includes('password')
-        ? 'La contraseña debe tener mínimo 8 caracteres.'
+        ? 'Contraseña muy débil. Usá mayúsculas, números y símbolos. Ej: Burger123!'
         : msg;
       Alert.alert('Error', friendly);
     }
@@ -76,7 +76,7 @@ export default function RegisterScreen() {
           error={errors.password}
           autoCapitalize="none"
         />
-        <Text className="mb-4 -mt-2 text-xs text-gray-400">Mínimo 8 caracteres</Text>
+        <Text className="mb-4 -mt-2 text-xs text-gray-400">Mínimo 8 caracteres con letras y números</Text>
 
         <Button label="Crear cuenta" onPress={handleRegister} isLoading={isLoading} />
 
