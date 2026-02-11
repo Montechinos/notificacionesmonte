@@ -11,17 +11,10 @@ export const authService = {
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
+      // El trigger on_auth_user_created crea el perfil automáticamente con full_name
       options: { data: { full_name: fullName } },
     });
     if (error) throw error;
-
-    // Crear perfil asociado al usuario registrado
-    if (data.user) {
-      await supabase.from('profiles').insert({
-        id: data.user.id,
-        full_name: fullName,
-      });
-    }
     return data;
   },
 
