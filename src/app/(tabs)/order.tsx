@@ -4,7 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAuth } from '@src/lib/modules/auth';
 import { useIngredients } from '@src/lib/modules/ingredients';
 import { useOrder } from '@src/lib/modules/orders';
-import { BurgerPreview } from '@src/components/burger';
+import { BurgerPreview, Burger3DViewer } from '@src/components/burger';
 import { Button } from '@src/components/ui/Button';
 import { OrderStatus } from '@src/components/ui/OrderStatus';
 
@@ -26,6 +26,10 @@ export default function OrderScreen() {
         <Text className="mt-0.5 text-sm text-gray-500">
           Toca los ingredientes para activar o desactivar
         </Text>
+      </View>
+
+      <View className="px-4 pt-3">
+        <Burger3DViewer ingredients={ingredients} />
       </View>
 
       <View className="flex-1 pt-2">

@@ -4,6 +4,9 @@ const path = require('path');
 
 const config = getDefaultConfig(__dirname);
 
+// Incluir .glb como asset extension para modelos 3D
+config.resolver.assetExts = [...(config.resolver.assetExts || []), 'glb'];
+
 // Resolver aliases para @src/*
 config.resolver.alias = {
   '@src': path.resolve(__dirname, 'src'),
