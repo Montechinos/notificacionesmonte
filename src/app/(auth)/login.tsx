@@ -72,6 +72,18 @@ export default function LoginScreen() {
             <Text className="font-semibold text-red-600">Regístrate</Text>
           </Link>
         </View>
+
+        {/* Acceso rápido al dashboard para crear usuario de prueba */}
+        <View className="mt-4 items-center">
+          <Text
+            className="text-xs text-gray-400 underline"
+            onPress={() =>
+              window.open('https://supabase.com/dashboard/project/ygpfgkwxejrkaeishfns/auth/users', '_blank')
+            }
+          >
+            Crear usuario desde Supabase Dashboard →
+          </Text>
+        </View>
       </ScrollView>
     </KeyboardAvoidingView>
   );
