@@ -34,7 +34,6 @@ export default function LoginScreen() {
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}
     >
       <ScrollView contentContainerClassName="flex-1 justify-center px-6 py-12">
-        {/* Logo / Header */}
         <View className="mb-10 items-center">
           <Text className="text-6xl">🍔</Text>
           <Text className="mt-3 text-3xl font-extrabold text-red-600">BurgerMonte</Text>

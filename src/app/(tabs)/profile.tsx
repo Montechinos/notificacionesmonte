@@ -17,7 +17,6 @@ export default function ProfileScreen() {
   return (
     <SafeAreaView className="flex-1 bg-gray-50">
       <ScrollView contentContainerClassName="flex-grow px-6 py-8">
-        {/* Avatar y nombre */}
         <View className="mb-8 items-center">
           <View className="mb-4 h-24 w-24 items-center justify-center rounded-full bg-red-100">
             <Text className="text-5xl">👤</Text>
@@ -28,7 +27,6 @@ export default function ProfileScreen() {
           <Text className="mt-1 text-sm text-gray-500">{user?.email}</Text>
         </View>
 
-        {/* Tarjeta de información */}
         <View className="mb-6 rounded-2xl bg-white p-4 shadow-sm">
           <Text className="mb-3 text-xs font-semibold uppercase tracking-widest text-gray-400">
             Cuenta

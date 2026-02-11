@@ -21,7 +21,6 @@ export default function OrderScreen() {
 
   return (
     <SafeAreaView className="flex-1 bg-gray-50">
-      {/* Header */}
       <View className="border-b border-gray-100 bg-white px-6 py-4">
         <Text className="text-2xl font-extrabold text-gray-900">Tu Burger 🍔</Text>
         <Text className="mt-0.5 text-sm text-gray-500">
@@ -29,12 +28,10 @@ export default function OrderScreen() {
         </Text>
       </View>
 
-      {/* Lista de ingredientes */}
       <View className="flex-1 pt-2">
         <BurgerPreview ingredients={ingredients} onToggle={toggleIngredient} />
       </View>
 
-      {/* Botón de pedido */}
       <View className="border-t border-gray-100 bg-white px-6 py-4">
         <Button
           label={`PEDIR  (${selectedIngredients.length} ingredientes)`}
@@ -45,7 +42,6 @@ export default function OrderScreen() {
         />
       </View>
 
-      {/* Overlay de estado del pedido */}
       {showOverlay && (
         <OrderStatus
           state={state as 'waiting' | 'done' | 'error'}

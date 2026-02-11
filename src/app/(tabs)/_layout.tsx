@@ -4,8 +4,6 @@ import { useAuth, useDeviceRegistration } from '@src/lib/modules/auth';
 
 export default function TabsLayout() {
   const { user } = useAuth();
-
-  // Registrar el push token del dispositivo cuando el usuario está autenticado
   useDeviceRegistration(user?.id);
 
   return (
