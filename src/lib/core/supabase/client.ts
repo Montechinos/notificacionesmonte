@@ -1,10 +1,8 @@
-import { createClient } from '@supabase/supabase-js';
+import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { Platform } from 'react-native';
 import { Database } from './types';
 
-// Importación condicional: SecureStore solo existe en entornos nativos
 const getStorage = () => {
-  // Nativo (iOS / Android)
   if (Platform.OS !== 'web') {
     // eslint-disable-next-line @typescript-eslint/no-require-imports
     const SecureStore = require('expo-secure-store');
@@ -15,44 +13,44 @@ const getStorage = () => {
     };
   }
 
-  // Web en browser (localStorage disponible)
   if (typeof window !== 'undefined' && typeof localStorage !== 'undefined') {
     return {
       getItem: (key: string) => Promise.resolve(localStorage.getItem(key)),
-      setItem: (key: string, value: string) => {
-        localStorage.setItem(key, value);
-        return Promise.resolve();
-      },
-      removeItem: (key: string) => {
-        localStorage.removeItem(key);
-        return Promise.resolve();
-      },
+      setItem: (key: string, value: string) => { localStorage.setItem(key, value); return Promise.resolve(); },
+      removeItem: (key: string) => { localStorage.removeItem(key); return Promise.resolve(); },
     };
   }
 
-  // SSR / Node.js (pre-render de Expo Router) — sin persistencia
-  const memoryStorage = new Map<string, string>();
+  // SSR / Node.js
+  const mem = new Map<string, string>();
   return {
-    getItem: (key: string) => Promise.resolve(memoryStorage.get(key) ?? null),
-    setItem: (key: string, value: string) => {
-      memoryStorage.set(key, value);
-      return Promise.resolve();
-    },
-    removeItem: (key: string) => {
-      memoryStorage.delete(key);
-      return Promise.resolve();
-    },
+    getItem: (key: string) => Promise.resolve(mem.get(key) ?? null),
+    setItem: (key: string, value: string) => { mem.set(key, value); return Promise.resolve(); },
+    removeItem: (key: string) => { mem.delete(key); return Promise.resolve(); },
   };
 };
 
-const supabaseUrl = process.env.EXPO_PUBLIC_SUPABASE_URL!;
-const supabaseAnonKey = process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY!;
+// Singleton: evita instanciar múltiples clientes en hot reload
+const globalKey = '__supabase_instance__';
+type GlobalWithSupabase = typeof globalThis & { [globalKey]?: SupabaseClient<Database> };
 
-export const supabase = createClient<Database>(supabaseUrl, supabaseAnonKey, {
-  auth: {
-    storage: getStorage(),
-    autoRefreshToken: true,
-    persistSession: true,
-    detectSessionInUrl: false,
-  },
-});
+const getSupabaseClient = (): SupabaseClient<Database> => {
+  const g = globalThis as GlobalWithSupabase;
+  if (g[globalKey]) return g[globalKey]!;
+
+  g[globalKey] = createClient<Database>(
+    process.env.EXPO_PUBLIC_SUPABASE_URL!,
+    process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY!,
+    {
+      auth: {
+        storage: getStorage(),
+        autoRefreshToken: true,
+        persistSession: true,
+        detectSessionInUrl: false,
+      },
+    }
+  );
+  return g[globalKey]!;
+};
+
+export const supabase = getSupabaseClient();
