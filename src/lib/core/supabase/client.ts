@@ -54,4 +54,3 @@ const getSupabaseClient = (): SupabaseClient<Database> => {
 };
 
 export const supabase = getSupabaseClient();
-export const SUPABASE_URL = process.env.EXPO_PUBLIC_SUPABASE_URL!;
