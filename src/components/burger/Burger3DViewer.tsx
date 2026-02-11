@@ -34,8 +34,8 @@ export function Burger3DViewer({ ingredients }: Props) {
     const scene = new THREE.Scene();
     scene.background = new THREE.Color(0xfff7ed);
 
-    const camera = new THREE.PerspectiveCamera(30, w / h, 0.1, 100);
-    camera.position.set(0, 1.2, 3.5);
+    const camera = new THREE.PerspectiveCamera(45, w / h, 0.1, 100);
+    camera.position.set(0, 1, 3);
     camera.lookAt(0, 0.35, 0);
 
     const renderer = new THREE.WebGLRenderer({ antialias: true });
