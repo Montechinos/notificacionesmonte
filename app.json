@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "notificacionesmonte",
+    "name": "BurgerMonte",
     "slug": "notificacionesmonte",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -9,7 +9,8 @@
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.burgermente.app"
     },
     "android": {
       "adaptiveIcon": {
@@ -19,14 +20,26 @@
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
       },
       "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "package": "com.burgermente.app",
+      "googleServicesFile": "./google-services.json"
     },
     "web": {
       "output": "static",
-      "favicon": "./assets/images/favicon.png"
+      "favicon": "./assets/images/favicon.png",
+      "bundler": "metro"
     },
     "plugins": [
       "expo-router",
+      "expo-secure-store",
+      [
+        "expo-notifications",
+        {
+          "icon": "./assets/images/icon.png",
+          "color": "#D62300",
+          "sounds": []
+        }
+      ],
       [
         "expo-splash-screen",
         {
@@ -43,6 +56,11 @@
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
+    },
+    "extra": {
+      "eas": {
+        "projectId": "TU_PROJECT_ID_EAS"
+      }
     }
   }
 }
