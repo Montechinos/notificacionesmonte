@@ -25,7 +25,7 @@
       "googleServicesFile": "./google-services.json"
     },
     "web": {
-      "output": "static",
+      "output": "single-page-app",
       "favicon": "./assets/images/favicon.png",
       "bundler": "metro"
     },
