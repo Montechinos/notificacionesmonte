@@ -1,9 +1,6 @@
-// Tipos generados a partir del esquema de Supabase
-// Actualizar con: npx supabase gen types typescript --project-id TU_ID > src/lib/core/supabase/types.ts
-
 export type Json = string | number | boolean | null | { [key: string]: Json } | Json[];
 
-export interface Database {
+export type Database = {
   public: {
     Tables: {
       profiles: {
@@ -23,6 +20,7 @@ export interface Database {
           full_name?: string | null;
           avatar_url?: string | null;
         };
+        Relationships: [];
       };
       devices: {
         Row: {
@@ -43,6 +41,7 @@ export interface Database {
           push_token?: string;
           platform?: string;
         };
+        Relationships: [];
       };
       ingredients: {
         Row: {
@@ -65,26 +64,28 @@ export interface Database {
           category?: string;
           display_order?: number;
         };
+        Relationships: [];
       };
       orders: {
         Row: {
           id: string;
           user_id: string;
-          status: 'pending' | 'preparing' | 'ready' | 'delivered';
+          status: string;
           created_at: string;
           notified_at: string | null;
         };
         Insert: {
           id?: string;
           user_id: string;
-          status?: 'pending' | 'preparing' | 'ready' | 'delivered';
+          status?: string;
           created_at?: string;
           notified_at?: string | null;
         };
         Update: {
-          status?: 'pending' | 'preparing' | 'ready' | 'delivered';
+          status?: string;
           notified_at?: string | null;
         };
+        Relationships: [];
       };
       order_ingredients: {
         Row: {
@@ -98,11 +99,14 @@ export interface Database {
           ingredient_id: string;
         };
         Update: Record<string, never>;
+        Relationships: [];
       };
     };
+    Views: Record<string, never>;
     Functions: Record<string, never>;
     Enums: {
       order_status: 'pending' | 'preparing' | 'ready' | 'delivered';
     };
+    CompositeTypes: Record<string, never>;
   };
-}
+};
