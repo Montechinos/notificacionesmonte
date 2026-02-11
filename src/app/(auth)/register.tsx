@@ -16,7 +16,7 @@ export default function RegisterScreen() {
     const e: typeof errors = {};
     if (!fullName.trim()) e.fullName = 'El nombre es requerido';
     if (!email.trim()) e.email = 'El correo es requerido';
-    if (password.length < 6) e.password = 'Mínimo 6 caracteres';
+    if (password.length < 8) e.password = 'Mínimo 8 caracteres';
     setErrors(e);
     return Object.keys(e).length === 0;
   };
@@ -32,6 +32,8 @@ export default function RegisterScreen() {
         ? 'Demasiados intentos. Esperá 2 minutos e intentá con otro email.'
         : msg.includes('already registered')
         ? 'Ese email ya está registrado. Intentá iniciar sesión.'
+        : msg.includes('422') || msg.includes('weak') || msg.includes('password')
+        ? 'La contraseña debe tener mínimo 8 caracteres.'
         : msg;
       Alert.alert('Error', friendly);
     }
@@ -72,7 +74,9 @@ export default function RegisterScreen() {
           placeholder="••••••••"
           secureTextEntry
           error={errors.password}
+          autoCapitalize="none"
         />
+        <Text className="mb-4 -mt-2 text-xs text-gray-400">Mínimo 8 caracteres</Text>
 
         <Button label="Crear cuenta" onPress={handleRegister} isLoading={isLoading} />
 
