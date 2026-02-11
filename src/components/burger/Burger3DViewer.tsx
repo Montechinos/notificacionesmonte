@@ -34,9 +34,9 @@ export function Burger3DViewer({ ingredients }: Props) {
     const scene = new THREE.Scene();
     scene.background = new THREE.Color(0xfff7ed);
 
-    const camera = new THREE.PerspectiveCamera(35, w / h, 0.1, 100);
-    camera.position.set(0, 2, 5);
-    camera.lookAt(0, 0.7, 0);
+    const camera = new THREE.PerspectiveCamera(40, w / h, 0.1, 100);
+    camera.position.set(0, 1, 3);
+    camera.lookAt(0, 0.3, 0);
 
     const renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setSize(w, h);
@@ -57,15 +57,22 @@ export function Burger3DViewer({ ingredients }: Props) {
     ctrl.autoRotateSpeed = 2;
     ctrl.minPolarAngle = Math.PI / 6;
     ctrl.maxPolarAngle = Math.PI / 2.2;
-    ctrl.target.set(0, 0.7, 0);
+    ctrl.target.set(0, 0.3, 0);
 
     const loader = new GLTFLoader();
-    Object.entries(MODEL_MAP).forEach(([name, { url, y }]) => {
+    Object.entries(MODEL_MAP).forEach(([name, { url, y, scale }]) => {
       loader.load(url, (gltf) => {
-        gltf.scene.position.y = y;
-        gltf.scene.visible = false;
-        scene.add(gltf.scene);
-        modelsRef.current.set(name, gltf.scene);
+        const model = gltf.scene;
+        model.position.y = y;
+        model.scale.setScalar(scale);
+        // Centrar horizontalmente cada modelo
+        const box = new THREE.Box3().setFromObject(model);
+        const center = box.getCenter(new THREE.Vector3());
+        model.position.x -= center.x;
+        model.position.z -= center.z;
+        model.visible = false;
+        scene.add(model);
+        modelsRef.current.set(name, model);
         updateVisibility();
       });
     });
