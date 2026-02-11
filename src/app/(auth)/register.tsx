@@ -16,7 +16,17 @@ export default function RegisterScreen() {
     const e: typeof errors = {};
     if (!fullName.trim()) e.fullName = 'El nombre es requerido';
     if (!email.trim()) e.email = 'El correo es requerido';
-    if (password.length < 8) e.password = 'Mínimo 8 caracteres';
+    if (password.length < 8) {
+      e.password = 'Mínimo 8 caracteres';
+    } else if (!/[A-Z]/.test(password)) {
+      e.password = 'Necesita al menos una mayúscula (ej: A)';
+    } else if (!/[a-z]/.test(password)) {
+      e.password = 'Necesita al menos una minúscula (ej: a)';
+    } else if (!/[0-9]/.test(password)) {
+      e.password = 'Necesita al menos un número (ej: 1)';
+    } else if (!/[^A-Za-z0-9]/.test(password)) {
+      e.password = 'Necesita al menos un símbolo (ej: ! @ # $)';
+    }
     setErrors(e);
     return Object.keys(e).length === 0;
   };
@@ -76,7 +86,7 @@ export default function RegisterScreen() {
           error={errors.password}
           autoCapitalize="none"
         />
-        <Text className="mb-4 -mt-2 text-xs text-gray-400">Mínimo 8 caracteres con letras y números</Text>
+        <Text className="mb-4 -mt-2 text-xs text-gray-400">Mínimo 8 caracteres · mayúscula · número · símbolo (ej: Burger123!)</Text>
 
         <Button label="Crear cuenta" onPress={handleRegister} isLoading={isLoading} />
 
