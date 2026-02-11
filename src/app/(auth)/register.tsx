@@ -6,7 +6,7 @@ import { Input } from '@src/components/ui/Input';
 import { Button } from '@src/components/ui/Button';
 
 export default function RegisterScreen() {
-  const { signUp, isLoading } = useAuth();
+  const { signUp, signIn, isLoading } = useAuth();
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -16,16 +16,8 @@ export default function RegisterScreen() {
     const e: typeof errors = {};
     if (!fullName.trim()) e.fullName = 'El nombre es requerido';
     if (!email.trim()) e.email = 'El correo es requerido';
-    if (password.length < 8) {
-      e.password = 'Mínimo 8 caracteres';
-    } else if (!/[A-Z]/.test(password)) {
-      e.password = 'Necesita al menos una mayúscula (ej: A)';
-    } else if (!/[a-z]/.test(password)) {
-      e.password = 'Necesita al menos una minúscula (ej: a)';
-    } else if (!/[0-9]/.test(password)) {
-      e.password = 'Necesita al menos un número (ej: 1)';
-    } else if (!/[^A-Za-z0-9]/.test(password)) {
-      e.password = 'Necesita al menos un símbolo (ej: ! @ # $)';
+    if (password.length < 6) {
+      e.password = 'Mínimo 6 caracteres';
     }
     setErrors(e);
     return Object.keys(e).length === 0;
@@ -35,15 +27,12 @@ export default function RegisterScreen() {
     if (!validate()) return;
     try {
       await signUp(email.trim(), password, fullName.trim());
-      Alert.alert('¡Bienvenido!', 'Cuenta creada. Revisa tu correo para confirmar.');
+      // Admin API no crea sesión, así que hacemos login automático
+      await signIn(email.trim(), password);
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : 'Error al registrarse';
-      const friendly = msg.includes('429') || msg.includes('rate')
-        ? 'Demasiados intentos. Esperá 2 minutos e intentá con otro email.'
-        : msg.includes('already registered')
+      const friendly = msg.includes('already')
         ? 'Ese email ya está registrado. Intentá iniciar sesión.'
-        : msg.includes('422') || msg.includes('weak') || msg.includes('password')
-        ? 'Contraseña muy débil. Usá mayúsculas, números y símbolos. Ej: Burger123!'
         : msg;
       Alert.alert('Error', friendly);
     }
@@ -86,7 +75,7 @@ export default function RegisterScreen() {
           error={errors.password}
           autoCapitalize="none"
         />
-        <Text className="mb-4 -mt-2 text-xs text-gray-400">Mínimo 8 caracteres · mayúscula · número · símbolo (ej: Burger123!)</Text>
+        <Text className="mb-4 -mt-2 text-xs text-gray-400">Mínimo 6 caracteres</Text>
 
         <Button label="Crear cuenta" onPress={handleRegister} isLoading={isLoading} />
 

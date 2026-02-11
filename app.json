@@ -58,8 +58,10 @@
     },
     "extra": {
       "eas": {
-        "projectId": "TU_PROJECT_ID_EAS"
-      }
-    }
+        "projectId": "c46379df-1d53-4477-a39c-577c57b300f5"
+      },
+      "router": {}
+    },
+    "owner": "matthxo"
   }
 }
