@@ -24,7 +24,13 @@ export default function LoginScreen() {
     try {
       await signIn(email.trim(), password);
     } catch (err: unknown) {
-      Alert.alert('Error', err instanceof Error ? err.message : 'Error al iniciar sesión');
+      const msg = err instanceof Error ? err.message : 'Error al iniciar sesión';
+      const friendly = msg.includes('Invalid login')
+        ? 'Email o contraseña incorrectos.'
+        : msg.includes('Email not confirmed')
+        ? 'Confirmá tu email antes de iniciar sesión, o desactivá la confirmación en Supabase.'
+        : msg;
+      Alert.alert('Error', friendly);
     }
   };
 

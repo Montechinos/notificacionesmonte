@@ -27,7 +27,13 @@ export default function RegisterScreen() {
       await signUp(email.trim(), password, fullName.trim());
       Alert.alert('¡Bienvenido!', 'Cuenta creada. Revisa tu correo para confirmar.');
     } catch (err: unknown) {
-      Alert.alert('Error', err instanceof Error ? err.message : 'Error al registrarse');
+      const msg = err instanceof Error ? err.message : 'Error al registrarse';
+      const friendly = msg.includes('429') || msg.includes('rate')
+        ? 'Demasiados intentos. Esperá 2 minutos e intentá con otro email.'
+        : msg.includes('already registered')
+        ? 'Ese email ya está registrado. Intentá iniciar sesión.'
+        : msg;
+      Alert.alert('Error', friendly);
     }
   };
 
