@@ -35,8 +35,8 @@ export function Burger3DViewer({ ingredients }: Props) {
     scene.background = new THREE.Color(0xfff7ed);
 
     const camera = new THREE.PerspectiveCamera(30, w / h, 0.1, 100);
-    camera.position.set(0, 0.8, 2.5);
-    camera.lookAt(0, 0.15, 0);
+    camera.position.set(0, 1, 2.8);
+    camera.lookAt(0, 0.3, 0);
 
     const renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setSize(w, h);
@@ -57,14 +57,14 @@ export function Burger3DViewer({ ingredients }: Props) {
     ctrl.autoRotateSpeed = 2;
     ctrl.minPolarAngle = Math.PI / 6;
     ctrl.maxPolarAngle = Math.PI / 2.2;
-    ctrl.target.set(0, 0.15, 0);
+    ctrl.target.set(0, 0.3, 0);
 
     const loader = new GLTFLoader();
     Object.entries(MODEL_MAP).forEach(([name, { url, y, scale }]) => {
       loader.load(url, (gltf) => {
         const model = gltf.scene;
         // Los modelos vienen en Z-up (Blender), rotar a Y-up (Three.js)
-        model.rotation.x = -Math.PI / 2;
+        model.rotation.x = Math.PI / 2;
         model.scale.setScalar(scale);
         model.position.y = y;
         model.visible = false;
