@@ -27,8 +27,6 @@ export default function RegisterScreen() {
     if (!validate()) return;
     try {
       await signUp(email.trim(), password, fullName.trim());
-      // Admin API no crea sesión, así que hacemos login automático
-      await signIn(email.trim(), password);
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : 'Error al registrarse';
       const friendly = msg.includes('already')

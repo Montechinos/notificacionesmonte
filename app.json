@@ -24,7 +24,7 @@
       "package": "com.burgermente.app"
     },
     "web": {
-      "output": "single-page-app",
+      "output": "single",
       "favicon": "./assets/images/favicon.png",
       "bundler": "metro"
     },
@@ -54,7 +54,7 @@
     ],
     "experiments": {
       "typedRoutes": true,
-      "reactCompiler": true
+      "reactCompiler": false
     },
     "extra": {
       "eas": {

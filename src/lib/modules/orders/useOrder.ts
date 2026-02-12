@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react';
 import { ordersService } from './orders.service';
+import { sendLocalNotification } from '@src/lib/core/notifications';
 
 type OrderState = 'idle' | 'ordering' | 'waiting' | 'done' | 'error';
 
@@ -19,7 +20,6 @@ export function useOrder(userId: string | undefined) {
         await ordersService.createOrder(userId, ingredientIds);
         setState('waiting');
 
-        // Cuenta regresiva de 15 segundos (la notificación viene del servidor)
         let remaining = 15;
         setCountdown(remaining);
 
@@ -29,6 +29,10 @@ export function useOrder(userId: string | undefined) {
           if (remaining <= 0) {
             clearInterval(interval);
             setState('done');
+            sendLocalNotification(
+              '🍔 ¡Tu burger está lista!',
+              'Ya puedes pasar a retirar tu pedido. ¡Buen provecho!'
+            );
           }
         }, 1000);
       } catch (err: unknown) {

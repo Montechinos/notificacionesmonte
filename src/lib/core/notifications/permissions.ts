@@ -15,7 +15,7 @@ Notifications.setNotificationHandler({
 
 export async function requestNotificationPermissions(): Promise<boolean> {
   if (!Device.isDevice) {
-    console.warn('Las notificaciones push solo funcionan en dispositivos físicos');
+    console.warn('Las notificaciones solo funcionan en dispositivos físicos');
     return false;
   }
 
@@ -35,17 +35,16 @@ export async function requestNotificationPermissions(): Promise<boolean> {
   return status === 'granted';
 }
 
-export async function getExpoPushToken(): Promise<string | null> {
+export async function sendLocalNotification(title: string, body: string): Promise<void> {
   try {
     const hasPermission = await requestNotificationPermissions();
-    if (!hasPermission) return null;
+    if (!hasPermission) return;
 
-    const token = await Notifications.getExpoPushTokenAsync({
-      projectId: process.env.EXPO_PUBLIC_EAS_PROJECT_ID,
+    await Notifications.scheduleNotificationAsync({
+      content: { title, body, sound: true },
+      trigger: null, // Se envía inmediatamente
     });
-    return token.data;
   } catch (err) {
-    console.error('Error obteniendo push token:', err);
-    return null;
+    console.error('Error enviando notificación local:', err);
   }
 }

@@ -1,1 +1,0 @@
-export { deviceStorage } from './deviceStorage';

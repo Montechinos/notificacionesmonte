@@ -1,1 +1,1 @@
-export { requestNotificationPermissions, getExpoPushToken } from './permissions';
+export { requestNotificationPermissions, sendLocalNotification } from './permissions';

@@ -17,7 +17,7 @@ export function useIngredients() {
         .order('display_order');
 
       if (!error && data?.length) {
-        setIngredients(data.map((i) => ({ ...i, selected: true })));
+        setIngredients(data.map((i) => ({ ...i, selected: true } as IngredientState)));
       }
       setIsLoading(false);
     };

@@ -1,11 +1,7 @@
 import { Tabs } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
-import { useAuth, useDeviceRegistration } from '@src/lib/modules/auth';
 
 export default function TabsLayout() {
-  const { user } = useAuth();
-  useDeviceRegistration(user?.id);
-
   return (
     <Tabs
       screenOptions={{
